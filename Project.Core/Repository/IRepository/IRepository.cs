@@ -9,6 +9,10 @@ namespace Project.DataAccess.Repository.IRepository
     public interface IRepository<T> where T : class
     {
         T Get(int id);
+        T Get(string id);
+        T Get(Guid id);
+        void Remove(Guid id);
+
 
         IEnumerable<T> GetAll(
             Expression<Func<T, bool>> filter = null,

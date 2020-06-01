@@ -7,5 +7,7 @@ namespace Project.DataAccess.Repository.IRepository
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
+        public void Update(Employee employee);
+
     }
 }

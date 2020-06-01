@@ -1,0 +1,62 @@
+﻿@model Project.Models.Attribute
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Create Attribute";
+}
+
+
+<form method="post">
+    <div class="row p-3 border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (Model.ATTR_ID == Guid.Empty)
+        {
+            //edit
+            title = "Edit Attribute";
+            <input type="hidden" asp-for="ATTR_ID" />
+        }
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">@title</h2>
+        </div>
+        <div class="col-8 pt-4">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ATTR_Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ATTR_Name" class="form-control" />
+                    <span asp-validation-for="ATTR_Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ATTR_Value"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ATTR_Value" class="form-control" />
+                    <span asp-validation-for="ATTR_Value" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    @if (Model.ATTR_ID == Guid.Empty)
+                    {
+                        <partial name="_EditAndBackToListButton" model="Model.ATTR_ID" />
+                    }
+                    else
+                    {
+                        <partial name="_CreateAndBackToListButton" />
+
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+}

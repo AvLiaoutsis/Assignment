@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
+
 namespace Project.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
@@ -26,6 +27,14 @@ namespace Project.DataAccess.Repository
         }
 
         public T Get(int id)
+        {
+            return dbSet.Find(id);
+        }
+        public T Get(string id)
+        {
+            return dbSet.Find(id);
+        }
+        public T Get(Guid id)
         {
             return dbSet.Find(id);
         }
@@ -76,6 +85,12 @@ namespace Project.DataAccess.Repository
         }
 
         public void Remove(int id)
+        {
+            T entity = dbSet.Find(id);
+            Remove(entity);
+        }
+
+        public void Remove(Guid id)
         {
             T entity = dbSet.Find(id);
             Remove(entity);

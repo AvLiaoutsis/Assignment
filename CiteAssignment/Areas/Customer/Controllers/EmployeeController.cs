@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Project.DataAccess.Repository.IRepository;
 using Project.Models;
+using Project.Models.ViewModels;
 
 namespace CiteAssignment.Areas.Customer.Controllers
 {
@@ -25,23 +26,27 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            var employee = new Employee();
+            var viewModel = new EmployeeAttrViewModel()
+            {
+                Employee = new Employee(),
+                Attributes = _unitOfWork.Attribute.GetAll().ToList()
+            };
 
             if (id == null)
             {
                 //this is for create
-                return View(employee);
+                return View(viewModel);
             }
 
             // this is for edit
-            employee = _unitOfWork.Employee.Get(id.GetValueOrDefault());
+            viewModel.Employee = _unitOfWork.Employee.Get(id.GetValueOrDefault());
 
-            if (employee == null)
+            if (viewModel.Employee == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(viewModel);
         }
 
         #region API CALLS
@@ -56,29 +61,38 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Employee employee)
+        public IActionResult Upsert(EmployeeAttrViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrWhiteSpace(employee.EMP_ID))
+                if (viewModel.Employee.EMP_ID == Guid.Empty)
                 {
-                    _unitOfWork.Employee.Add(employee);
+                    _unitOfWork.Employee.Add(viewModel.Employee);
                 }
                 else
                 {
-                    _unitOfWork.Employee.Update(employee);
+                    _unitOfWork.Employee.Update(viewModel.Employee);
                 }
 
                 _unitOfWork.Save();
 
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                viewModel.Attributes = _unitOfWork.Attribute.GetAll().ToList();
 
-            return View(employee);
+
+                if (viewModel.Employee.EMP_ID == Guid.Empty)
+                {
+                    viewModel.Employee = _unitOfWork.Employee.Get(viewModel.Employee.EMP_ID);
+                }
+            }
+            return View(viewModel);
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
             var objFromDb = _unitOfWork.Employee.Get(id);
 
