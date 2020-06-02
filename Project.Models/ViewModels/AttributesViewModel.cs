@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Project.Models.ViewModels
 {
-    public class EmployeeAttrViewModel
+    public class AttributesViewModel
     {
+        public List<Attribute> MyAttributes { get; set; }
+        public List<Attribute> AllAttributes { get; set; }
+
         public EmployeeSpecial Employee { get; set; }
-        public List<Attribute> Attributes { get; set; }
     }
 }

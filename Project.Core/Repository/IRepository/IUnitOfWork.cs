@@ -8,6 +8,9 @@ namespace Project.DataAccess.Repository.IRepository
     {
         IAttributeRepository Attribute {get;}
         IEmployeeRepository Employee { get; }
+        IEmployeeSpecialRepository EmployeeSpecial { get; }
+        IEmployeeAttributeRepository EmployeeAttribute { get; }
+        IEmployeeSpecialAttributeRepository EmployeeSpecialAttribute { get; }
 
         void Save();
 

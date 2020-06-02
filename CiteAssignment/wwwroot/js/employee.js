@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
     loadDataTable();
+    console.log("piga");
 });
 
 function loadDataTable() {
@@ -10,7 +11,10 @@ function loadDataTable() {
             "url": "/Customer/Employee/GetAll"
         },
         "columns": [
-            { "data": "name", "width": "60%" },
+            { "data": "name", "width": "20%" },
+            { "data": "birthDate", "width": "20%" },
+            { "data": "hasCar", "width": "20%" },
+            { "data": "streetAddress", "width": "20%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -24,7 +28,7 @@ function loadDataTable() {
                                 </a>
                             </div>
                             `
-                }, "width": "40%"
+                }, "width": "60%"
             }
         ]
     });

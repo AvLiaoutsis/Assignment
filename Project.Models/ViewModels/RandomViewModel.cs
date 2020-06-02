@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Project.Models.ViewModels
 {
-    public class EmployeeAttrViewModel
+    public class RandomViewModel
     {
         public EmployeeSpecial Employee { get; set; }
-        public List<Attribute> Attributes { get; set; }
+        public List<String> AttributeIds {get;set;}
     }
 }

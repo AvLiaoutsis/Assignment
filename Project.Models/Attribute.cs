@@ -8,7 +8,6 @@ namespace Project.Models
 {
     public class Attribute
     {
-        [Key]
         public Guid ATTR_ID { get; set; }
 
         [Display(Name ="Name")]

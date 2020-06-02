@@ -10,8 +10,8 @@ function loadDataTable() {
             "url": "/Customer/Attribute/GetAll"
         },
         "columns": [
-            { "data": "attR_Name", "width": "60%" },
-            { "data": "attR_Value", "width": "60%" },
+            { "data": "attR_Name", "width": "20%" },
+            { "data": "attR_Value", "width": "20%" },
             {
                 "data": "attR_ID",
                 "render": function (data) {
@@ -25,9 +25,13 @@ function loadDataTable() {
                                 </a>
                             </div>
                             `
-                }, "width": "40%"
+                }, "width": "20%"
             }
-        ]
+        ],
+        "columnDefs": [{
+            "targets": 2,
+            "orderable": false,
+        }]
     });
 }
 

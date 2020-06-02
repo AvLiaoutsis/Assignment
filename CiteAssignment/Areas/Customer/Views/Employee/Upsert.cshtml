@@ -1,48 +1,121 @@
-﻿@model Project.Models.Attribute
+﻿@model Project.Models.EmployeeSpecial
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var title = "Create Attribute";
+    var title = "Create Employee";
+
+    //var res = Model.Attributes.ToLookup(x => x.ATTR_Name, x => x.ATTR_Value);
+    //int i = 0;
+
+
 }
 
 
-<form method="post" >
-    <div class="row p-3 border">
+@*@functions {
+
+        Guid CalculateId(string name, string value)
+        {
+            var id = Model.Attributes.Where(x => x.ATTR_Name.Contains(name) && x.ATTR_Value.Contains(value)).SingleOrDefault().ATTR_ID;
+
+            return id;
+        }
+
+    }*@
+@*<button id="Check">Check</button>*@
+@*<form method="post" id="EmployeeForm" action="/Customer/Employee/Upsert">*@
+
+<form method="post" id="EmployeeForm">
+    <div class="row p-3 border mt-2">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @if (Model.ATTR_ID == Guid.Empty)
+        @if (Model.Id != Guid.Empty)
         {
             //edit
-            title = "Edit Attribute";
-            <input type="hidden" asp-for="ATTR_ID" />
+            title = "Edit Employee";
+            <input type="hidden" asp-for="Id" />
         }
         <div class="col-12 border-bottom">
             <h2 class="text-primary">@title</h2>
         </div>
-        <div class="col-8 pt-4">
+        <div class="col-12 ">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="ATTR_Name"></label>
+                    <label asp-for="Name"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="ATTR_Name" class="form-control" />
-                    <span asp-validation-for="ATTR_Name" class="text-danger"></span>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="ATTR_Value"></label>
+                    <label asp-for="BirthDate"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="ATTR_Value" class="form-control" />
-                    <span asp-validation-for="ATTR_Value" class="text-danger"></span>
+                    @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="StreetAddress"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="StreetAddress" class="form-control" />
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="HasCar"></label>
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" asp-for="HasCar" class="form-control" />
+                    <span asp-validation-for="HasCar" class="text-danger"></span>
                 </div>
             </div>
 
+            @*<div class="form-group row">
+                    <div class="col-4">
+                        <label><b>Attributes</b></label>
+                    </div>
+
+                </div>*@
+
+
+            @*@foreach (var attr in res)
+                {
+                    <div class="form-group">
+                        <label>@attr.Key</label>
+                        <select class="form-control" id="dropdown-@i" attr-name="@attr.Key">
+
+                            <option>none</option>
+                            @foreach (var attrvalue in attr)
+                            {
+
+                                <option data-id="@CalculateId(@attr.Key, attrvalue)" value="@attrvalue">@attrvalue</option>
+
+                            }
+
+                        </select>
+                    </div>
+
+                    i++;
+
+
+                }
+                <input type="hidden" id="NumDropDowns" value="@i" />*@
+
+
             <div class="form-group row">
                 <div class="col-8 offset-4">
-                    @if (Model.ATTR_ID == Guid.Empty)
+
+
+                    @if (Model.Id != Guid.Empty)
                     {
-                        <partial name="_EditAndBackToListButton" model="Model.ATTR_ID" />
+                        <partial name="_EditAndBackToListButton" model="Model.Id" />
+                        <a  asp-area="Customer" asp-controller="Employee" asp-action="ChangeAttributes" asp-route-id="@Model.Id" class="btn btn-primary mt-3">Add Attributes </a>
+
+
                     }
                     else
                     {
@@ -56,7 +129,138 @@
     </div>
 </form>
 
+
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        $(function () {
+
+
+
+
+
+        })
+
+
+        $(document).ready(function () {
+
+
+            //$("select").each(function (index) {
+            //    console.log($("select option:selected").text());
+            //});
+        });
+
+        $("#Check").click(function () {
+
+            var selectedoptions = []
+            //Take data-id for selected options
+
+            var i;
+            for (i = 0; i < document.getElementById('NumDropDowns').value; i++) {
+                var option = $("#dropdown-" + i + " option:selected")[0].getAttribute("data-id");
+                selectedoptions.push(option);
+
+            }
+            console.log(selectedoptions)
+
+            var objOfOptions = selectedoptions.reduce(function (acc, cur, i) {
+                acc[i] = cur;
+                return acc;
+            }, {});
+
+            @*console.log(objOfOptions);
+
+            console.log(@(Html.Raw(Json.Serialize(Model.Employee))));
+
+
+            function objectifyForm(formArray) {//serialize data function
+
+                var returnArray = {};
+                for (var i = 0; i < formArray.length; i++) {
+                    returnArray[formArray[i]['name']] = formArray[i]['value'];
+                }
+                return returnArray;
+            }*@
+
+            var employee = $('#EmployeeForm').serialize();
+            var data = {};
+            data[0] = employee;
+            data[1] = objOfOptions;
+
+            $.ajax({
+                url: "/Customer/Employee/Upsert",
+                type: 'post',
+                dataType: 'application/json',
+                data: employee,
+                    success: function (data) {
+                        alert("kati");
+                    }
+                });
+
+
+            //var employee = objectifyForm(document.getElementById('EmployeeForm'));
+
+            //console.log(employee)
+
+            //data0 = JSON.stringify({ employee: employee, attributes: objOfOptions });
+
+            //console.log(data0);
+
+
+
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Customer/Employee/Upsert?EmployeeAttrViewModel={" + employee + "," + objOfOptions + "}",
+            //    data: data0,
+            //    contentType: 'application/json',
+
+
+            //            success: function (data) {
+            //                if (!data[0]) {
+
+            //                    alert("hi");
+
+            //                }
+            //            }
+            //        });
+
+            //var formEl = document.forms.EmployeeForm;
+            //var formData = new FormData(formEl);
+            //console.log(formData);
+
+            //var queryString = $('#EmployeeForm').serialize();
+            //console.log(queryString);
+
+            //const form = document.getElementById('EmployeeForm');
+            //// Get the form data with our (yet to be defined) function.
+
+
+            //var data = JSON.stringify($(form).serializeArray()); //  <-----------
+
+            //console.log(data);
+            //return false;
+
+        });
+
+
+
+                //function PupulateId(name, value) {
+                //    $.ajax({
+                //        type: "GET",
+                //        url: "/Customer/Attribute/GetAttribute?name=" + name + "&value=" + value,
+                //        success: function (data) {
+                //            if (!data[0]) {
+
+                //                $("#Price").html("N/A Price. Please Contact With Me");
+
+                //            }
+                //        }
+                //    });
+                //}
+
+    </script>
+
 
 }

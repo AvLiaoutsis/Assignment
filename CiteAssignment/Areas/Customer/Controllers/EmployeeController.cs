@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Project.DataAccess.Repository.IRepository;
 using Project.Models;
 using Project.Models.ViewModels;
+using Attribute = Project.Models.Attribute;
+
 
 namespace CiteAssignment.Areas.Customer.Controllers
 {
@@ -24,71 +26,152 @@ namespace CiteAssignment.Areas.Customer.Controllers
             return View();
         }
 
-        public IActionResult Upsert(int? id)
+        public IActionResult Upsert(Guid id)
         {
-            var viewModel = new EmployeeAttrViewModel()
-            {
-                Employee = new Employee(),
-                Attributes = _unitOfWork.Attribute.GetAll().ToList()
-            };
+            var employee = new EmployeeSpecial();
 
-            if (id == null)
+            if (id == Guid.Empty)
             {
                 //this is for create
-                return View(viewModel);
+                return View(employee);
             }
 
             // this is for edit
-            viewModel.Employee = _unitOfWork.Employee.Get(id.GetValueOrDefault());
+            employee = _unitOfWork.EmployeeSpecial.Get(id);
 
-            if (viewModel.Employee == null)
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(viewModel);
+            return View(employee);
         }
 
         #region API CALLS
 
         [HttpGet]
+        public IActionResult ChangeAttributes(Guid id)
+        {
+            var employee = _unitOfWork.EmployeeSpecial.Get(id);
+
+            var allAttributes = _unitOfWork.Attribute.GetAll().ToList();
+
+            var chosenAttributes = _unitOfWork.EmployeeSpecialAttribute.GetAll(includeProperties:"Attribute").Select(u=>u.Attribute).ToList();
+
+            var attributes = new AttributesViewModel()
+            {
+                AllAttributes = allAttributes,
+                MyAttributes = chosenAttributes,
+                Employee = employee
+            };
+
+            return View(attributes);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeAttributes (AttributesViewModel viewModel)
+        {
+            var previousattributes = _unitOfWork.EmployeeAttribute.GetAll()
+                .Where(u => u.EMPATTR_EmployeeID == viewModel.Employee.EmployeeId);
+
+            _unitOfWork.EmployeeAttribute.RemoveRange(previousattributes);
+
+            foreach (var attribute in viewModel.MyAttributes)
+            {
+                var newRelation = new EmployeeAttribute()
+                {
+                    EMPATTR_AttributeID = attribute.ATTR_ID,
+                    EMPATTR_EmployeeID = viewModel.Employee.Id
+                };
+
+                _unitOfWork.EmployeeAttribute.Add(newRelation);
+
+                _unitOfWork.Save();
+
+
+            }
+            return Ok();
+        }
+        [HttpGet]
         public IActionResult GetAll()
         {
-            var AllObj = _unitOfWork.Employee.GetAll();
+            var AllObj = _unitOfWork.EmployeeSpecial.GetAll();
             return Json(new { data = AllObj });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllByAttribute(Attribute attribute)
+        {
+            var AllObj = _unitOfWork.EmployeeAttribute.GetAll(includeProperties: "Employee,Attribute").ToList();
+
+            var result = AllObj.Where(u => u.EMPATTR_AttributeID == attribute.ATTR_ID);
+
+
+            return Json(new { data = result });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllByAttributes(List<Attribute> attributes)
+        {
+            var AllObj = _unitOfWork.EmployeeAttribute.GetAll(includeProperties: "Employee,Attribute").ToList();
+
+            var result = new List<EmployeeAttribute>();
+
+             
+            foreach (var attribute in attributes)
+            {
+                foreach (var person in AllObj)
+                {
+                    if(person.Attribute.Equals(attribute))
+
+                    result.Add(new EmployeeAttribute()
+                    {
+                        Attribute = attribute,
+                        Employee = person.Employee
+                    });   
+                }
+            }
+
+
+
+
+
+            return Json(new { data = result });
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(EmployeeAttrViewModel viewModel)
+        public IActionResult Upsert( EmployeeSpecial employee)
         {
             if (ModelState.IsValid)
             {
-                if (viewModel.Employee.EMP_ID == Guid.Empty)
+                if (employee.Id == Guid.Empty)
                 {
-                    _unitOfWork.Employee.Add(viewModel.Employee);
+                    _unitOfWork.EmployeeSpecial.Add(employee);
                 }
                 else
                 {
-                    _unitOfWork.Employee.Update(viewModel.Employee);
+                    _unitOfWork.EmployeeSpecial.Update(employee);
                 }
 
                 _unitOfWork.Save();
 
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                viewModel.Attributes = _unitOfWork.Attribute.GetAll().ToList();
+            //else
+            //{
+            //    viewModel.Attributes = _unitOfWork.Attribute.GetAll().ToList();
 
 
-                if (viewModel.Employee.EMP_ID == Guid.Empty)
-                {
-                    viewModel.Employee = _unitOfWork.Employee.Get(viewModel.Employee.EMP_ID);
-                }
-            }
-            return View(viewModel);
+            //    if (viewModel.Employee.Id == Guid.Empty)
+            //    {
+            //        viewModel.Employee = _unitOfWork.EmployeeSpecial.Get(viewModel.Employee.Id);
+            //    }
+            //}
+            return View(employee);
         }
 
         [HttpDelete]

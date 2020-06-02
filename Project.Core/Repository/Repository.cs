@@ -55,7 +55,7 @@ namespace Project.DataAccess.Repository
                     query = query.Include(includeProp);
                 }
             }
-
+            
             if (orderBy != null)
             {
                 return orderBy(query).ToList();

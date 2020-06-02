@@ -1,5 +1,6 @@
 ﻿using Project.DataAccess.Data;
 using Project.DataAccess.Repository.IRepository;
+using Project.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ using Attribute = Project.Models.Attribute;
 
 namespace Project.DataAccess.Repository
 {
-    public class AttributeRepository : Repository<Attribute>, IAttributeRepository
+    public class EmployeeAttributeRepository : Repository<EmployeeAttribute>, IEmployeeAttributeRepository
     {
         private readonly ApplicationDbContext _db;
 
-        public AttributeRepository(ApplicationDbContext db) : base(db)
+        public EmployeeAttributeRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }

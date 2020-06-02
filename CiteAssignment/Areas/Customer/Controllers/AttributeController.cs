@@ -31,7 +31,7 @@ namespace CiteAssignment.Areas.Customer.Controllers
         {
             var attribute = new Attribute();
 
-            if (id == null)
+            if (id == Guid.Empty)
             {
                 //this is for create
                 return View(attribute);
@@ -55,6 +55,13 @@ namespace CiteAssignment.Areas.Customer.Controllers
             return Json(new { data = AllObj });
         }
 
+        [HttpGet]
+        public IActionResult GetAttribute(string name,string value)
+        {
+            var Obj = _unitOfWork.Attribute.Get(name,value);
+            return Json(new { data = Obj });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(Attribute attribute)
@@ -76,6 +83,18 @@ namespace CiteAssignment.Areas.Customer.Controllers
             }
 
             return View(attribute);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert()
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return View("hi");
         }
 
         [HttpDelete]

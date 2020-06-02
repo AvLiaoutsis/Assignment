@@ -29,18 +29,6 @@ namespace Project.DataAccess.Repository
             }
         }
 
-        public void Update(EmployeeSpecial employee)
-        {
-            var objFromDb = _db.EmployeeSpecials.FirstOrDefault(s => s.Id == employee.Id);
 
-            if (objFromDb != null)
-            {
-                objFromDb.Name = employee.Name;
-                objFromDb.HasCar = employee.HasCar;
-                employee.StreetAddress = employee.StreetAddress;
-                employee.BirthDate = employee.BirthDate;
-                employee.ListAttributes = employee.ListAttributes;
-            }
-        }
     }
 }

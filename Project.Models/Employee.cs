@@ -8,7 +8,6 @@ namespace Project.Models
 {
     public class Employee
     {
-        [Key]
         public Guid EMP_ID { get; set; }
         public string EMP_Name { get; set; }
         public DateTime EMP_DateOfHire { get; set; }

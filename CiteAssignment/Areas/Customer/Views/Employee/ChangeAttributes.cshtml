@@ -1,0 +1,60 @@
+﻿@model Project.Models.ViewModels.AttributesViewModel
+@{
+    ViewData["Title"] = "ChangeAttributes";
+
+}
+
+
+<div class="form-group">
+    <label>All Variables</label>
+    <select id="myselect" class="form-control AllAttributes">
+
+        @foreach (var attr in Model.AllAttributes)
+        {
+            <option class="allatributes" id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
+        }
+
+
+    </select>
+</div>
+<button class="btn btn-primary" id="add">Add To List</button>
+
+<table id="myTable" class="table">
+    <thead>
+
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<div class="form-group">
+    <label>My Variables</label>
+    <select class="form-control">
+
+        @foreach (var attr in Model.MyAttributes)
+        {
+        <option id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
+        }
+
+
+    </select>
+</div>
+
+@*@section Scripts{ 
+    <script>
+        $("#add").on('click', function () {
+            var data = "<tr" + $("#myselect option:selected").attr("attr-name") + "><td id=" + $("#myselect option:selected").attr("id") + ">" + $("#myselect option:selected").text() + "</td></tr>";
+
+
+
+            $('.allatributes[attr-name]').each(function () {
+
+            });
+            
+            $('#myTable > tbody:last-child').append(data);
+            $('#myselect option:selected').remove();
+            i++;
+        });
+    </script>
+}*@
