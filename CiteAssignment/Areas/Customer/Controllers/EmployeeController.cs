@@ -70,34 +70,35 @@ namespace CiteAssignment.Areas.Customer.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ChangeAttributes (AttributesViewModel viewModel)
+        public IActionResult ChangeAttributes ([FromBody] RandomViewModel viewModel)
         {
-            var previousattributes = _unitOfWork.EmployeeAttribute.GetAll()
-                .Where(u => u.EMPATTR_EmployeeID == viewModel.Employee.EmployeeId);
 
-            _unitOfWork.EmployeeAttribute.RemoveRange(previousattributes);
+            var previousattributes = _unitOfWork.EmployeeSpecialAttribute.GetAll()
+                .Where(u => u.EmployeeId == viewModel.EmployeeId);
 
-            foreach (var attribute in viewModel.MyAttributes)
+            _unitOfWork.EmployeeSpecialAttribute.RemoveRange(previousattributes);
+
+            foreach (var attributeid in viewModel.AttributeIds)
             {
-                var newRelation = new EmployeeAttribute()
+                var newRelation = new EmployeeSpecialAttribute()
                 {
-                    EMPATTR_AttributeID = attribute.ATTR_ID,
-                    EMPATTR_EmployeeID = viewModel.Employee.Id
+                    AttributeId = new Guid(attributeid),
+                    EmployeeId = viewModel.EmployeeId
                 };
 
-                _unitOfWork.EmployeeAttribute.Add(newRelation);
-
-                _unitOfWork.Save();
-
+                _unitOfWork.EmployeeSpecialAttribute.Add(newRelation);
 
             }
+
+            _unitOfWork.Save();
+
             return Ok();
         }
         [HttpGet]
         public IActionResult GetAll()
         {
-            var AllObj = _unitOfWork.EmployeeSpecial.GetAll();
+            var AllObj = _unitOfWork.EmployeeSpecial.GetAll().ToList();
+            AllObj.ForEach(d => d.BirthDate.Date.ToString("dd/MM/yyyy"));
             return Json(new { data = AllObj });
         }
 

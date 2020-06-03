@@ -12,7 +12,15 @@ function loadDataTable() {
         },
         "columns": [
             { "data": "name", "width": "20%" },
-            { "data": "birthDate", "width": "20%" },
+            {
+                "data": "birthDate",
+                "render": function (data) {
+                    return `
+                           ${moment(data).format('D/M/YYYY')}
+                             `
+             
+            }, "width": "20%"   },
+            
             { "data": "hasCar", "width": "20%" },
             { "data": "streetAddress", "width": "20%" },
             {

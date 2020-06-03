@@ -6,7 +6,7 @@ namespace Project.Models.ViewModels
 {
     public class RandomViewModel
     {
-        public EmployeeSpecial Employee { get; set; }
+        public Guid EmployeeId { get; set; }
         public List<String> AttributeIds {get;set;}
     }
 }

@@ -1,60 +1,146 @@
 ﻿@model Project.Models.ViewModels.AttributesViewModel
 @{
     ViewData["Title"] = "ChangeAttributes";
+    var res = Model.AllAttributes.ToLookup(x => x.ATTR_Name, x => x.ATTR_Value);
+    int i = 0;
 
 }
 
+@functions {
 
-<div class="form-group">
-    <label>All Variables</label>
-    <select id="myselect" class="form-control AllAttributes">
+    Guid CalculateId(string name, string value)
+    {
+        var id = Model.AllAttributes.Where(x => x.ATTR_Name.Contains(name) && x.ATTR_Value.Contains(value)).SingleOrDefault().ATTR_ID;
 
-        @foreach (var attr in Model.AllAttributes)
-        {
-            <option class="allatributes" id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
-        }
+        return id;
+    }
 
+}
+<div class="form-group row">
+    <div class="col-4">
+        <label><b>Attributes</b></label>
+    </div>
 
-    </select>
-</div>
-<button class="btn btn-primary" id="add">Add To List</button>
-
-<table id="myTable" class="table">
-    <thead>
-
-    </thead>
-    <tbody>
-
-    </tbody>
-</table>
-
-<div class="form-group">
-    <label>My Variables</label>
-    <select class="form-control">
-
-        @foreach (var attr in Model.MyAttributes)
-        {
-        <option id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
-        }
-
-
-    </select>
 </div>
 
-@*@section Scripts{ 
+
+@foreach (var attr in res)
+{
+    <div class="form-group">
+        <label>@attr.Key</label>
+        <select class="form-control" id="dropdown-@i" attr-name="@attr.Key">
+
+            <option>none</option>
+            @foreach (var attrvalue in attr)
+            {
+
+                <option data-id="@CalculateId(@attr.Key, attrvalue)" value="@attrvalue">@attrvalue</option>
+
+            }
+
+        </select>
+    </div>
+
+    i++;
+
+
+}
+<input type="hidden" id="NumDropDowns" value="@i" />
+<input type="hidden" id="PersonId" value="@Model.Employee.Id" />
+
+<button class="btn" id="Check">Check</button>
+
+@*<div class="form-group">
+        <label>All Variables</label>
+        <select id="myselect" class="form-control AllAttributes">
+
+            @foreach (var attr in Model.AllAttributes)
+            {
+                <option class="allatributes" id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name"><b>@attr.ATTR_Name</b> : @attr.ATTR_Value</option>
+            }
+
+
+        </select>
+    </div>
+    <button class="btn btn-primary" id="add">Add To List</button>
+
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>*@
+
+@*<div class="form-group">
+        <label>My Variables</label>
+        <select class="form-control">
+
+            @foreach (var attr in Model.MyAttributes)
+            {
+            <option id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
+            }
+
+
+        </select>
+    </div>*@
+
+@section Scripts{
     <script>
-        $("#add").on('click', function () {
-            var data = "<tr" + $("#myselect option:selected").attr("attr-name") + "><td id=" + $("#myselect option:selected").attr("id") + ">" + $("#myselect option:selected").text() + "</td></tr>";
+        //$(document).ready(function () {
 
 
 
-            $('.allatributes[attr-name]').each(function () {
+        //});
 
+        $("#Check").click(function () {
+            var selectedoptions = [];
+
+            var i;
+            for (i = 0; i < document.getElementById('NumDropDowns').value; i++) {
+                var option = $("#dropdown-" + i + " option:selected")[0].getAttribute("data-id");
+                selectedoptions.push(option);
+
+            }
+            var personid = document.getElementById('PersonId').value
+            console.log(selectedoptions)
+
+            var combo = { EmployeeId: personid, AttributeIds: selectedoptions }
+            var combojson = JSON.stringify(combo);
+
+            $.ajax({
+                type: "POST",
+                url: "/Customer/Employee/ChangeAttributes",
+                data: combojson ,
+                contentType: "application/json; charset=utf-8",
             });
-            
-            $('#myTable > tbody:last-child').append(data);
-            $('#myselect option:selected').remove();
-            i++;
+
         });
+                //$("#add").on('click', function () {
+                //    var data = "<tr attr-name=" + $("#myselect option:selected").attr("attr-name") + "><td id=" + $("#myselect option:selected").attr("id") + ">" + $("#myselect option:selected").text() + "</td></tr>";
+                //    //var label = "<th>" + $("#myselect option:selected").attr("attr-name") + "</th> ";
+
+
+                //    $('#myTable > tbody:last-child').append(data);
+                //    //$('#myTable > thead > tr').append(label);
+
+                //    $('#myselect option:selected').remove();
+
+                //    $('#myselect [attr-name]= "' + $("#myselect option:selected").attr("attr-name") + "").each(function (index, value) {
+                //        console.log("i found you");
+                //    });
+
+
+                //    $('#myTable').find('tr').find('td').each(function () {
+                //        console.log("hi");
+                //        console.log($(this).attr('id'))
+
+                //        selected.push($(this).attr('id'));
+
+                //    })
+
+                //    console.log(selected)
+                //});
     </script>
-}*@
+}

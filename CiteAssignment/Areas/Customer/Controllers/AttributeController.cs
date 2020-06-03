@@ -24,9 +24,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
             return View();
         }
 
-        #region API CALLS
-
-
         public IActionResult Upsert(Guid id)
         {
             var attribute = new Attribute();
@@ -47,6 +44,12 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
             return View(attribute);
         }
+
+
+        #region API CALLS
+
+
+
 
         [HttpGet]
         public IActionResult GetAll()
@@ -85,17 +88,7 @@ namespace CiteAssignment.Areas.Customer.Controllers
             return View(attribute);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Upsert()
-        {
-            if (ModelState.IsValid)
-            {
 
-            }
-
-            return View("hi");
-        }
 
         [HttpDelete]
         public IActionResult Delete(Guid id)
