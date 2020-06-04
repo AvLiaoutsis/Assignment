@@ -20,7 +20,7 @@ function initMap() {
     var directionsRenderer = new google.maps.DirectionsRenderer;
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 6,
-        center: { lat: 41.85, lng: -87.65 }
+        center: { lat: 37.9652701, lng: 23.7755836 }
     });
     directionsRenderer.setMap(map);
 
