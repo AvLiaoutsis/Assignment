@@ -65,14 +65,15 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
 
                 console.log(hasCar);
 
-                if (hasCar == "HasCar") {
-                    summaryPanel.innerHTML += "By Car";
 
-                }
-                else {
-                    summaryPanel.innerHTML += "On Foot";
+            }
+            if (hasCar == "HasCar") {
+                summaryPanel.innerHTML += "By Car";
 
-                }
+            }
+            else {
+                summaryPanel.innerHTML += "On Foot";
+
             }
         } else {
             window.alert('Directions request failed due to ' + status);

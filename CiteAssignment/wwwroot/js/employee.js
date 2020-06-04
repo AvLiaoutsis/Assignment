@@ -1,6 +1,8 @@
 ﻿var dataTable;
 
-
+$(document).ready(function () {
+    loadDataTable();
+});
 
 function loadDataTable() {
     dataTable = $("#tblData").DataTable({
@@ -18,7 +20,17 @@ function loadDataTable() {
              
             }, "width": "20%"   },
             
-            { "data": "hasCar", "width": "20%" },
+            {
+                "data": "hasCar",
+                "render": function (data) {
+                    if (data == true) {
+                        return "Available"
+                    }
+                    else {
+                        return "Not Available"
+                    }
+                }, "width": "20%"
+            },
             { "data": "streetAddress", "width": "20%" },
             {
                 "data": "id",
@@ -35,7 +47,11 @@ function loadDataTable() {
                             `
                 }, "width": "60%"
             }
-        ]
+        ],
+        "columnDefs": [{
+            "targets": 4,
+            "orderable": false,
+        }]
     });
 }
 

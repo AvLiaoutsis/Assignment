@@ -112,8 +112,13 @@
 
                     @if (Model.Id != Guid.Empty)
                     {
+                        <div class="row mb-2">
+                            <div class="col">
+                                <a asp-area="Customer" asp-controller="Employee" asp-action="ChangeAttributes" asp-route-id="@Model.Id" class="btn btn-primary btn-lg btn-block">Add Attributes </a>
+                            </div>
+
+                        </div>
                         <partial name="_EditAndBackToListButton" model="Model.Id" />
-                        <a  asp-area="Customer" asp-controller="Employee" asp-action="ChangeAttributes" asp-route-id="@Model.Id" class="btn btn-primary mt-3">Add Attributes </a>
 
 
                     }
@@ -134,24 +139,6 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-
-        $(function () {
-
-
-
-
-
-        })
-
-
-        $(document).ready(function () {
-
-
-            //$("select").each(function (index) {
-            //    console.log($("select option:selected").text());
-            //});
-        });
-
         $("#Check").click(function () {
 
             var selectedoptions = []

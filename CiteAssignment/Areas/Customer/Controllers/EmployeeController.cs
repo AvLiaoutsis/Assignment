@@ -33,6 +33,7 @@ namespace CiteAssignment.Areas.Customer.Controllers
             if (id == Guid.Empty)
             {
                 //this is for create
+                employee.BirthDate = DateTime.Now.AddYears(-18);
                 return View(employee);
             }
 
@@ -78,15 +79,19 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
             _unitOfWork.EmployeeSpecialAttribute.RemoveRange(previousattributes);
 
+           
             foreach (var attributeid in viewModel.AttributeIds)
             {
-                var newRelation = new EmployeeSpecialAttribute()
+                if (!string.IsNullOrWhiteSpace(attributeid))
                 {
-                    AttributeId = new Guid(attributeid),
-                    EmployeeId = viewModel.EmployeeId
-                };
+                    var newRelation = new EmployeeSpecialAttribute()
+                    {
+                        AttributeId = new Guid(attributeid),
+                        EmployeeId = viewModel.EmployeeId
+                    };
+                    _unitOfWork.EmployeeSpecialAttribute.Add(newRelation);
 
-                _unitOfWork.EmployeeSpecialAttribute.Add(newRelation);
+                }
 
             }
 
