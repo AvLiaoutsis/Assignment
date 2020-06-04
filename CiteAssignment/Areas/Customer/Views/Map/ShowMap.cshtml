@@ -33,7 +33,7 @@
             <option value="@(Model.OtherEmloyees.Any() ? @Model.OtherEmloyees.LastOrDefault().StreetAddress : @Model.ChosenEmployee.StreetAddress)"></option>
 
         </select>
-        <input type="submit" id="submit" value="Show Route">
+        <input type="submit" id="submit" class="btn btn-secondary ml-3 mt-3 mb-3" value="Show Route">
         </div>
         <div id="directions-panel"></div>
     </div>

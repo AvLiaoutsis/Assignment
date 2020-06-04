@@ -51,6 +51,10 @@ namespace CiteAssignment.Areas.Customer.Controllers
         [HttpPost]
         public IActionResult GenerateMap( EmployeesMapIdViewModel viewModel)
         {
+            if(viewModel.ChosenId == null)
+            {
+                return NotFound();
+            }
             var selectedEmployee = _unitOfWork.EmployeeSpecial.Get(new Guid(viewModel.ChosenId));
 
             var otherEmployees = new List<EmployeeSpecial>();

@@ -80,7 +80,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
                 .Where(u => u.EmployeeId == viewModel.EmployeeId);
 
             _unitOfWork.EmployeeSpecialAttribute.RemoveRange(previousattributes);
-
            
             foreach (var attributeid in viewModel.AttributeIds)
             {
@@ -113,7 +112,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
             var AllObj = _unitOfWork.EmployeeAttribute.GetAll(includeProperties: "Employee,Attribute").ToList();
 
             var result = AllObj.Where(u => u.EMPATTR_AttributeID == attribute.ATTR_ID);
-
 
             return Json(new { data = result });
         }
