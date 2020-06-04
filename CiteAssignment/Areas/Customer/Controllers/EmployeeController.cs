@@ -178,14 +178,14 @@ namespace CiteAssignment.Areas.Customer.Controllers
         [HttpDelete]
         public IActionResult Delete(Guid id)
         {
-            var objFromDb = _unitOfWork.Employee.Get(id);
+            var objFromDb = _unitOfWork.EmployeeSpecial.Get(id);
 
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
 
-            _unitOfWork.Employee.Remove(objFromDb);
+            _unitOfWork.EmployeeSpecial.Delete(id);
 
             _unitOfWork.Save();
 

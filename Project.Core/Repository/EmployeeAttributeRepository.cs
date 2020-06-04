@@ -35,7 +35,7 @@ namespace Project.DataAccess.Repository
         {
             var objFromDb = _db.Attribute.SingleOrDefault(s => s.ATTR_ID == id);
 
-            var associationAttributes = _db.EmployeeAttribute.Where(s => s.EMPATTR_AttributeID == id);
+            var associationAttributes = _db.EmployeeAttribute.Where(s => s.EMPATTR_AttributeID == id).ToList();
 
             _db.RemoveRange(associationAttributes);
 

@@ -19,6 +19,5 @@ namespace Project.DataAccess.Repository
             _db = db;
         }
 
-
     }
 }

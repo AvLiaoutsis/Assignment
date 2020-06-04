@@ -31,5 +31,22 @@ namespace Project.DataAccess.Repository
                 objFromDb.ListAttributes = employee.ListAttributes;
             }
         }
+
+        public void Delete(Guid id)
+        {
+            var objFromDb = _db.EmployeeSpecial.SingleOrDefault(s => s.Id == id);
+
+            var associationAttributes = _db.EmployeeSpecialAttribute.Where(s => s.EmployeeId == id).ToList();
+
+            if (associationAttributes.Any())
+            {
+                _db.RemoveRange(associationAttributes);
+
+            }
+
+            _db.Remove(objFromDb);
+
+
+        }
     }
 }

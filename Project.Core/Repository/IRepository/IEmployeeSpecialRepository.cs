@@ -9,5 +9,6 @@ namespace Project.DataAccess.Repository.IRepository
     {
         public void Update(EmployeeSpecial employee);
 
+        public void Delete(Guid id);
     }
 }

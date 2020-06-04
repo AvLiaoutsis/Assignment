@@ -10,6 +10,6 @@ namespace Project.DataAccess.Repository.IRepository
     {
         public void Update(Attribute attribute);
         public Attribute Get(string name, string value);
-
+        public void Delete(Guid id);
     }
 }

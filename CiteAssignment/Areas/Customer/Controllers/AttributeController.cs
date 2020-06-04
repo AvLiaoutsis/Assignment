@@ -100,7 +100,7 @@ namespace CiteAssignment.Areas.Customer.Controllers
                 return Json(new { success = false, message = "Error while deleting" });
             }
 
-            _unitOfWork.Attribute.Remove(objFromDb);
+            _unitOfWork.Attribute.Delete(id);
 
             _unitOfWork.Save();
 
