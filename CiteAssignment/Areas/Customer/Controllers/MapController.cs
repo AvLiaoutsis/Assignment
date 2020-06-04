@@ -33,9 +33,11 @@ namespace CiteAssignment.Areas.Customer.Controllers
         public IActionResult GetEmployeesUponAttribute(string id)
         {
             //Get List of Employee upon selected attribute
-            var AllEmployees = _unitOfWork.EmployeeSpecialAttribute.GetAll(includeProperties: "Employee,Attribute").ToList();
+            var AllEmployees = _unitOfWork.EmployeeSpecialAttribute
+                .GetAll(includeProperties: "Employee,Attribute").ToList();
 
-            var result = AllEmployees.Where(u => u.AttributeId.ToString() == id).Select(u => u.Employee).ToList();
+            var result = AllEmployees.Where(u => u.AttributeId.ToString() == id)
+                .Select(u => u.Employee).ToList();
 
             var viewModel = new EmployeesMapIdViewModel()
             {
@@ -50,6 +52,7 @@ namespace CiteAssignment.Areas.Customer.Controllers
         public IActionResult GenerateMap( EmployeesMapIdViewModel viewModel)
         {
             var selectedEmployee = _unitOfWork.EmployeeSpecial.Get(new Guid(viewModel.ChosenId));
+
             var otherEmployees = new List<EmployeeSpecial>();
 
             foreach (var emp in viewModel.AllEmployees)

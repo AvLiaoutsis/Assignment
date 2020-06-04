@@ -17,11 +17,13 @@ namespace Project.DataAccess.Data
         }
 
         public DbSet<Attribute> Attribute { get; set; }
+
         public DbSet<Employee> Employee { get; set; }
+
         public DbSet<EmployeeSpecial> EmployeeSpecial { get; set; }
+
         public DbSet<EmployeeSpecialAttribute> EmployeeSpecialAttribute { get; set; }
 
-        
         public DbSet<EmployeeAttribute> EmployeeAttribute { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

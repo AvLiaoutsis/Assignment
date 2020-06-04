@@ -57,7 +57,9 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
             var allAttributes = _unitOfWork.Attribute.GetAll().ToList();
 
-            var chosenAttributes = _unitOfWork.EmployeeSpecialAttribute.GetAll(includeProperties:"Attribute").Select(u=>u.Attribute).ToList();
+            var chosenAttributes = _unitOfWork.EmployeeSpecialAttribute
+                .GetAll(includeProperties:"Attribute")
+                .Select(u=>u.Attribute).ToList();
 
             var attributes = new AttributesViewModel()
             {
@@ -90,7 +92,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
                         EmployeeId = viewModel.EmployeeId
                     };
                     _unitOfWork.EmployeeSpecialAttribute.Add(newRelation);
-
                 }
 
             }
@@ -161,16 +162,7 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            //else
-            //{
-            //    viewModel.Attributes = _unitOfWork.Attribute.GetAll().ToList();
 
-
-            //    if (viewModel.Employee.Id == Guid.Empty)
-            //    {
-            //        viewModel.Employee = _unitOfWork.EmployeeSpecial.Get(viewModel.Employee.Id);
-            //    }
-            //}
             return View(employee);
         }
 
