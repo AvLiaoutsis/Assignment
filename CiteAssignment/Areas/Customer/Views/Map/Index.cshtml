@@ -2,58 +2,21 @@
 
 
 
-    <div class="form-group">
-        <label>Choose Attribute</label>
-        <select id="myselect" class="form-control AllAttributes">
+<div class="form-group">
+    <label>Choose Attribute</label>
+    <select id="myselect" class="form-control AllAttributes">
 
-            @foreach (var attr in Model)
-            {
-                <option class="allatributes" id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
-            }
+        @foreach (var attr in Model)
+        {
+            <option class="allatributes" id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
+        }
 
-        </select>
+    </select>
 
 
-    </div>
-       <center><a id="ButtonSubmit" href="/Customer/Map/GetEmployeesUponAttribute" class="btn btn-secondary">Continue</a></center> 
-        
+</div>
+<center><a id="ButtonSubmit" href="/Customer/Map/GetEmployeesUponAttribute" class="btn btn-secondary">Continue</a></center>
+
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            var selectedvalue = $("#myselect option:selected").attr("id");
-
-
-
-            $("#ButtonSubmit").attr("href", "/Customer/Map/GetEmployeesUponAttribute/" + selectedvalue);
-
-            $("#myselect").on("change", function () {
-
-                var selectedvalue = $("#myselect option:selected").attr("id");
-                $("#ButtonSubmit").attr("href", "/Customer/Map/GetEmployeesUponAttribute/" + selectedvalue);
-
-
-            });
-        });
-
-        //$("#ButtonSubmit").click(function () {
-        //    var selectedvalue = $("#myselect option:selected").attr("id");
-        //    console.log(selectedvalue);
-
-        //    console.log(JSON.stringify(selectedvalue));
-
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/Customer/Map/GetEmployeesUponAttribute?id=" + selectedvalue,
-        //        contentType: "application/json; charset=utf-8",
-        //        async: false
-        //    });
-        //});
-
-
-
-
-
-            
-        
-    </script>
+        <script src="~/js/MapAttributeIndex.js"></script>
 }

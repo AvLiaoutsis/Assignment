@@ -1,39 +1,34 @@
-﻿@model IEnumerable<Project.Models.EmployeeSpecial>
-@{
-    int i = 0;
-
-}
+﻿@model Project.Models.ViewModels.EmployeesMapIdViewModel
 
 
-@if (@Model.Any())
+
+@if (@Model.AllEmployees.Any())
 {
+    <form method="post" asp-area="Customer" asp-controller="Map" asp-action="GenerateMap">
 
-    <div class="form-group">
-        <label>All Employees</label>
-        <select id="myselect" class="form-control AllAttributes">
 
-            @foreach (var employee in Model)
+        <div class="form-group">
+            <label>Choose an employee</label>
+            <select id="myselect" class="form-control AllAttributes">
+
+                @foreach (var employee in Model.AllEmployees)
+                {
+
+                    <option class="allatributes" id="@employee.Id">@employee.Name who  @(employee.HasCar ? "has car" : "hasn't car") </option>
+
+                }
+            </select>
+
+            @for (int i = 0; i < Model.AllEmployees.Count; i++)
             {
-
-                <option class="allatributes" id="@employee.Id">@employee.Name who  @(employee.HasCar ? "has car" : "hasn't car") </option>
-                <input id="Person-@i" name="Person-@i" value="@employee.Id" type="hidden" />
-                i = i + 1;
+                @Html.HiddenFor(model => Model.AllEmployees[i].Id, new { @class = "hidden" })
             }
+        </div>
 
+        <input asp-for="ChosenId" type="hidden" />
+        <center><button id="ButtonSubmit" class="btn btn-secondary">Continue</button></center>
+    </form>
 
-        </select>
-
-
-    </div>
-
-    <input id="Chosen" name="Chosen" type="hidden" />
-    <center><button id="ButtonSubmit" class="btn btn-secondary">Continue</button></center>
-
-    @*<form id="theForm" action="/Customer/Map/GenerateMap" method="POST">
-            <input type='hidden' id='dat' />
-
-             Other elements
-        </form>*@
 }
 else
 {
@@ -42,108 +37,6 @@ else
 }
 
 @section Scripts{
-    <script>
-        var allusers = [];
-        var selecteduser = $("#myselect option:selected").attr("id");
+    <script src="~/js/chooseperson.js"></script>
 
-        $(document).ready(function () {
-            document.getElementById("Chosen").value = selecteduser
-
-
-            $("#myselect option").each(function () {
-                allusers.push(this.id);
-            });
-
-            console.log(allusers);
-
-
-            //$("#ButtonSubmit").attr("href", "/Customer/Map/GenerateMap" + selectedvalue);
-
-            $("#myselect").on("change", function () {
-                document.getElementById("Chosen").value = selecteduser;
-                //var selectedvalue = $("#myselect option:selected").attr("id");
-                //$("#ButtonSubmit").attr("href", "/Customer/Map/GetEmployeesUponAttribute/" + selectedvalue);
-                var selecteduser = document.getElementById("Chosen").value
-                var combo = { ChosenId: selecteduser, EmployeeIds: allusers }
-
-                var combojson = JSON.stringify(combo);
-                console.log(combojson)
-
-            });
-
-            //$("#MyForm").submit(function () {
-            //    var jqxhr = $.post('/Customer/Map/GenerateMap',
-            //        $('#MyForm').serialize())
-            //        .success(function () {
-            //            console.log("mpika");
-            //        })
-            //        .error(function () {
-            //        });
-            //    return false;
-            //});
-
-
-
-
-
-            //var personid = document.getElementById('PersonId').value
-            //console.log(selectedoptions)
-
-            //var combo = { EmployeeId: personid, AttributeIds: selectedoptions }
-            //var combojson = JSON.stringify(combo);
-
-
-
-        });
-
-        $("#ButtonSubmit").click(function () {
-            var selecteduser = document.getElementById("Chosen").value
-            var combo = { ChosenId: selecteduser, EmployeeIds: allusers }
-
-            var combojson = JSON.stringify(combo);
-
-
-            $('#dat').val(combojson);
-
-            console.log($('#dat').value)
-
-            document.getElementById('theForm').submit();
-            //console.log(combojson)
-            $.ajax({
-                type: "POST",
-                url: "/Customer/Map/GenerateMap",
-                data: combojson,
-                contentType: "application/json; charset=utf-8",
-                success: function (redirect) {
-                    window.location.href = redirect;
-                }
-            });
-            //$.post("/Customer/Map/GenerateMap", combo, function (result) { }, );
-
-            //fetch("/Customer/Map/GenerateMap", {
-            //    method: "POST",
-            //    body: combojson
-            //}).then(res => {
-            //    console.log("Request complete! response:", res);
-            //});
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/Customer/Map/GenerateMap",
-            //    data: combojson,
-            //    contentType: "application/json; charset=utf-8",
-            //    success: function (redirect) {
-            //        window.location.href = redirect;
-            //    }
-            //});
-        });
-
-
-
-
-
-
-
-
-
-    </script>
 }

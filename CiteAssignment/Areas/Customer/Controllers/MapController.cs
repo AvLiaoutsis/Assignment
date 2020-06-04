@@ -29,19 +29,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
             return View(attributes);
         }
 
-        //[HttpPost]
-        //public IActionResult GetEmployeesUponAttribute( Guid id)
-        //{
-        //    //Get List of Employee upon selected attribute
-        //    var AllEmployees = _unitOfWork.EmployeeSpecialAttribute.GetAll(includeProperties: "Employee,Attribute").ToList();
-
-        //    var result = AllEmployees.Where(u => u.AttributeId == id).Select(u=>u.Employee);
-
-
-        //    return Json(new { data = result });
-        //}
-
-
 
         public IActionResult GetEmployeesUponAttribute(string id)
         {
@@ -55,27 +42,9 @@ namespace CiteAssignment.Areas.Customer.Controllers
                 AllEmployees = result,
             };
 
-            return View("NewChoosePerson", viewModel);
+            return View("ChoosePerson", viewModel);
         }
 
-        //[HttpPost]
-        //public IActionResult GetEmployeesUponAttribute(Guid id,)
-        //{
-        //    //Get List of Employee upon selected attribute
-        //    var AllEmployees = _unitOfWork.EmployeeSpecialAttribute.GetAll(includeProperties: "Employee,Attribute").ToList();
-
-        //    var result = AllEmployees.Where(u => u.AttributeId == id).Select(u => u.Employee).ToList();
-
-
-        //    return RedirectToAction("ChoosePerson", result);
-        //}
-
-
-        //public IActionResult ChoosePerson(IEnumerable<EmployeeSpecial> employees)
-        //{
-
-        //    return View(employees);
-        //}
         
         [HttpPost]
         public IActionResult GenerateMap( EmployeesMapIdViewModel viewModel)
@@ -98,17 +67,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
             return View("ShowMap", viewModelForMap);
         }
-
-        //[HttpGet]
-        //public IActionResult ShowMap()
-        //{
-        //    var viewModel = (EmployeesMapViewModel)TempData["map"];
-
-        //    return View(viewModel);
-        //}
-
-
-
 
 
     }

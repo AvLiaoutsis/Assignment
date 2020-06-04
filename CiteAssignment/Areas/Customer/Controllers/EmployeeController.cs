@@ -139,11 +139,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
                     });   
                 }
             }
-
-
-
-
-
             return Json(new { data = result });
         }
 

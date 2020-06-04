@@ -2,6 +2,19 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+$(document).ready(function () {
+
+    //Hide DropDownList
+    var select1 = document.getElementById('start');
+    select1.style.display = 'none';
+
+    var select2 = document.getElementById('waypoints');
+    select2.style.display = 'none';
+
+    var select3 = document.getElementById('end');
+    select3.style.display = 'none';
+});
 function initMap() {
     var directionsService = new google.maps.DirectionsService;
     var directionsRenderer = new google.maps.DirectionsRenderer;
@@ -62,17 +75,13 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
                 summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
                 summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
                 summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-
-                console.log(hasCar);
-
-
             }
             if (hasCar == "HasCar") {
-                summaryPanel.innerHTML += "By Car";
+                summaryPanel.innerHTML += "<b>Travelling by Car</b>";
 
             }
             else {
-                summaryPanel.innerHTML += "On Foot";
+                summaryPanel.innerHTML += "<b>Travelling on Foot </b>";
 
             }
         } else {

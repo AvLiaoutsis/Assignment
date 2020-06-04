@@ -9,7 +9,6 @@
         selecteduser = $("#myselect option:selected").attr("id");
 
         document.getElementById("ChosenId").value = selecteduser;
-        console.log("mpike");
 
 
     });

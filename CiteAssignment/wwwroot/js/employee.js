@@ -15,8 +15,7 @@ function loadDataTable() {
                 "data": "birthDate",
                 "render": function (data) {
                     return `
-                           ${moment(data).format('D/M/YYYY')}
-                             `
+                           ${moment(data).format('D/M/YYYY')}                            `
              
             }, "width": "20%"   },
             

@@ -54,64 +54,21 @@
 
 </div>
 
-@*<div class="form-group">
-        <label>All Variables</label>
-        <select id="myselect" class="form-control AllAttributes">
-
-            @foreach (var attr in Model.AllAttributes)
-            {
-                <option class="allatributes" id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name"><b>@attr.ATTR_Name</b> : @attr.ATTR_Value</option>
-            }
-
-
-        </select>
-    </div>
-    <button class="btn btn-primary" id="add">Add To List</button>
-
-    <table id="myTable" class="table">
-        <thead>
-            <tr>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>*@
-
-@*<div class="form-group">
-        <label>My Variables</label>
-        <select class="form-control">
-
-            @foreach (var attr in Model.MyAttributes)
-            {
-            <option id="@attr.ATTR_ID" attr-name="@attr.ATTR_Name">@attr.ATTR_Name : @attr.ATTR_Value</option>
-            }
-
-
-        </select>
-    </div>*@
-
 @section Scripts{
     <script>
 
-        //$(document).ready(function () {
-
-
-
-        //});
-
         $("#Check").click(function () {
-            var selectedoptions = [];
+            var selectedattributes = [];
 
             var i;
             for (i = 0; i < document.getElementById('NumDropDowns').value; i++) {
                 var option = $("#dropdown-" + i + " option:selected")[0].getAttribute("data-id");
-                selectedoptions.push(option);
+                selectedattributes.push(option);
 
             }
             var personid = document.getElementById('PersonId').value
-            console.log(selectedoptions)
 
-            var combo = { EmployeeId: personid, AttributeIds: selectedoptions }
+            var combo = { EmployeeId: personid, AttributeIds: selectedattributes }
             var combojson = JSON.stringify(combo);
 
             $.ajax({
@@ -120,35 +77,14 @@
                 data: combojson,
                 contentType: "application/json; charset=utf-8",
                 success: function () {
-                    toastr.success('New Attributes have been Added')
+                    toastr.success('New Attributes have been Added');
+                },
+                error: function () {
+                    toastr.error('Sorry, something bad happened');
                 }
             });
 
         });
-                //$("#add").on('click', function () {
-                //    var data = "<tr attr-name=" + $("#myselect option:selected").attr("attr-name") + "><td id=" + $("#myselect option:selected").attr("id") + ">" + $("#myselect option:selected").text() + "</td></tr>";
-                //    //var label = "<th>" + $("#myselect option:selected").attr("attr-name") + "</th> ";
 
-
-                //    $('#myTable > tbody:last-child').append(data);
-                //    //$('#myTable > thead > tr').append(label);
-
-                //    $('#myselect option:selected').remove();
-
-                //    $('#myselect [attr-name]= "' + $("#myselect option:selected").attr("attr-name") + "").each(function (index, value) {
-                //        console.log("i found you");
-                //    });
-
-
-                //    $('#myTable').find('tr').find('td').each(function () {
-                //        console.log("hi");
-                //        console.log($(this).attr('id'))
-
-                //        selected.push($(this).attr('id'));
-
-                //    })
-
-                //    console.log(selected)
-                //});
     </script>
 }

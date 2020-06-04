@@ -3,6 +3,25 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+    <div class="jumbotron">
+        <center>
+            <h1 class="display-4">Hello, Cite!</h1>
+            <p  class=" mt-2 lead">This an application made by Avraam Liaoutsis .</p>
 
-<a  asp-area="Customer" asp-controller="Attribute" asp-action="Index">Show Attributes</a>
+            <hr class="my-4">
+
+            <p>You can go to Attribute Page which you can Create / Modify / Delete Attributes</p>
+
+            <a class="btn btn-primary btn-lg customButtonSize" asp-area="Customer" asp-controller="Attribute" asp-action="Index"> Attributes</a>
+
+            <hr class="my-4">
+            <p>You can go to Employee Page which you can Create / Modify / Delete Employess and you can add attributes to them.</p>
+
+            <a class="btn btn-primary btn-lg customButtonSize" asp-area="Customer" asp-controller="Employee" asp-action="Index"> Employees</a>
+
+            <hr class="my-4">
+            <p>You can go to Map Page which you can see choose an attribute,then an employee and then you can see the rendering map.</p>
+
+            <a class="btn btn-primary btn-lg customButtonSize" asp-area="Customer" asp-controller="Map" asp-action="Index"> Map</a>
+        </center>
+    </div>
