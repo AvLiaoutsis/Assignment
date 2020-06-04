@@ -21,7 +21,7 @@
 
             @for (int i = 0; i < Model.AllEmployees.Count; i++)
             {
-                @Html.HiddenFor(model => Model.AllEmployees[i].Id, new { @class = "hidden" })
+                @Html.HiddenFor(model => Model.AllEmployees[i].Id)
             }
         </div>
 

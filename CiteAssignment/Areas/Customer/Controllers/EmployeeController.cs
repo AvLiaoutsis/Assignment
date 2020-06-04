@@ -103,7 +103,6 @@ namespace CiteAssignment.Areas.Customer.Controllers
         public IActionResult GetAll()
         {
             var AllObj = _unitOfWork.EmployeeSpecial.GetAll().ToList();
-            AllObj.ForEach(d => d.BirthDate.Date.ToString("dd/MM/yyyy"));
             return Json(new { data = AllObj });
         }
 

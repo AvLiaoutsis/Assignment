@@ -30,7 +30,7 @@
             }
         </select>
         <select id="end">
-            <option value="@Model.OtherEmloyees.LastOrDefault().StreetAddress"></option>
+            <option value="@(Model.OtherEmloyees.Any() ? @Model.OtherEmloyees.LastOrDefault().StreetAddress : @Model.ChosenEmployee.StreetAddress)"></option>
 
         </select>
         <input type="submit" id="submit" value="Show Route">
