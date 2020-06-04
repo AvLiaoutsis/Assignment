@@ -1,9 +1,6 @@
 ﻿var dataTable;
 
-$(document).ready(function () {
-    loadDataTable();
-    console.log("piga");
-});
+
 
 function loadDataTable() {
     dataTable = $("#tblData").DataTable({

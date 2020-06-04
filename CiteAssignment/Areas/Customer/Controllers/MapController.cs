@@ -50,8 +50,12 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
             var result = AllEmployees.Where(u => u.AttributeId.ToString() == id).Select(u => u.Employee).ToList();
 
+            var viewModel = new EmployeesMapIdViewModel()
+            {
+                AllEmployees = result,
+            };
 
-            return View("ChoosePerson", result);
+            return View("NewChoosePerson", viewModel);
         }
 
         //[HttpPost]
@@ -72,16 +76,19 @@ namespace CiteAssignment.Areas.Customer.Controllers
 
         //    return View(employees);
         //}
+        
         [HttpPost]
-        public IActionResult GenerateMap([FromBody] EmployeesMapIdViewModel viewModel)
+        public IActionResult GenerateMap( EmployeesMapIdViewModel viewModel)
         {
             var selectedEmployee = _unitOfWork.EmployeeSpecial.Get(new Guid(viewModel.ChosenId));
             var otherEmployees = new List<EmployeeSpecial>();
 
-            foreach (var id in viewModel.EmployeeIds)
+            foreach (var emp in viewModel.AllEmployees)
             {
-                otherEmployees.Add(_unitOfWork.EmployeeSpecial.Get(new Guid(id)));
+                otherEmployees.Add(_unitOfWork.EmployeeSpecial.Get(emp.Id));
             }
+
+            otherEmployees.Remove(selectedEmployee);
 
             var viewModelForMap = new EmployeesMapViewModel()
             {

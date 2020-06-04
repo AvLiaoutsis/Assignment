@@ -51,7 +51,7 @@
                     <label asp-for="BirthDate"></label>
                 </div>
                 <div class="col-8">
-                    @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.TextBoxFor(v => v.BirthDate, new { @class = "form-control" })
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </div>
             </div>

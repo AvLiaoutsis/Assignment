@@ -26,9 +26,9 @@ namespace Project.DataAccess.Repository
             {
                 objFromDb.Name = employee.Name;
                 objFromDb.HasCar = employee.HasCar;
-                employee.StreetAddress = employee.StreetAddress;
-                employee.BirthDate = employee.BirthDate;
-                employee.ListAttributes = employee.ListAttributes;
+                objFromDb.StreetAddress = employee.StreetAddress;
+                objFromDb.BirthDate = employee.BirthDate;
+                objFromDb.ListAttributes = employee.ListAttributes;
             }
         }
     }

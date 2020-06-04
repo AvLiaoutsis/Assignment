@@ -17,6 +17,20 @@ function initMap() {
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+
+
+    var takeElementParent = document.getElementById("Starter");
+    var hasCar = takeElementParent.getAttribute("HasCar");
+
+
+    if (hasCar == "HasCar") {
+        travelmode = 'DRIVING'
+    }
+    else {
+        travelmode = 'WALKING'
+    }
+
+
     var waypts = [];
     var checkboxArray = document.getElementById('waypoints');
     for (var i = 0; i < checkboxArray.length; i++) {
@@ -33,7 +47,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
         destination: document.getElementById('end').value,
         waypoints: waypts,
         optimizeWaypoints: true,
-        travelMode: 'DRIVING'
+        travelMode: travelmode
     }, function (response, status) {
         if (status === 'OK') {
             directionsRenderer.setDirections(response);
@@ -48,6 +62,17 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
                 summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
                 summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
                 summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+
+                console.log(hasCar);
+
+                if (hasCar == "HasCar") {
+                    summaryPanel.innerHTML += "By Car";
+
+                }
+                else {
+                    summaryPanel.innerHTML += "On Foot";
+
+                }
             }
         } else {
             window.alert('Directions request failed due to ' + status);

@@ -11,8 +11,6 @@ namespace Project.Models
         public Guid EmployeeId { get; set; }
         public string Name { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-
         public DateTime BirthDate { get; set; }
         public bool HasCar { get; set; }
         public string StreetAddress { get; set; }

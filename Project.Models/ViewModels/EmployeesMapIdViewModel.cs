@@ -9,5 +9,8 @@ namespace Project.Models.ViewModels
         public IEnumerable<string> EmployeeIds { get; set; }
         public String ChosenId { get; set; }
 
+        public EmployeeSpecial ChosenEmployee { get; set; }
+        public List<EmployeeSpecial> AllEmployees { get; set; }
+
     }
 }
